@@ -62,6 +62,13 @@ Pass PrintIR(const std::string& header = "", bool show_meta_data = false);
 Pass AutoDiff(ir::Array<tvm::Bool> requires_grads = {});
 
 /*!
+ * \brief A pass that corrects param types and inserts AllGather for distributed training (ZeRO-3).
+ * \param partitioned_types Mapping from parameter name to the partitioned type.
+ * \return The created passed.
+ */
+Pass DistParams(ir::Map<tvm::String, tvm::Type> partitioned_types);
+
+/*!
  * \brief A pass that performs data parallelism. It mainly modifies the backward
  * closure by adding communication ops after the ops that generate local
  * gradient and stream_sync ops before the end of backward closure to ensure
